@@ -42,13 +42,13 @@ def predict_form():
 
 @app.route("/predict_file", method = ["POST"])
 def predict_file():
-    f.readline()
     file = request.file["archivo"]
     filename = secure_filename(file)
     #file.save(f"./static/{filename}")
     path = os.path(os.getcwd(), "static", filename)
     file.save(path)
     with open(path, "r") as f:
+        f.readline()
         reader = csv.reader
         x = [[float(row[0]), float(row[1]), float(row[2])] for row in reader]
         y_pred = dt.predict(x)
