@@ -2,11 +2,11 @@ from flask import Flask, request
 from flask_cors import CORS
 import joblib
 
-app = Flask(__name__)
+app = Flask(_name_)
 
-@app.route("/hola", methods = ["GET"])
+@app.route("/hola", methods=["GET"])
 def inicio():
     return "Hola mundo"
 
-if __name__ == "_main_":
-    app.run(host = "0.0.0.0", debug = False, port = 8081)
+if _name_ == "_main_":
+    app.run(host="0.0.0.0", debug=False, port=8081)
