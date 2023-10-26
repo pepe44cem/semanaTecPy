@@ -2,7 +2,10 @@ from flask import Flask, request
 from flask_cors import CORS
 import joblib
 
+dt = joblib.load("./static/dt.joblib")
+
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/hola", methods=["GET"])
 def inicio():
