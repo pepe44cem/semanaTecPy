@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
 
-dt = joblib.load("./static/dt.joblib")
+dt = joblib.load("./static/dt2.joblib")
 
 app = Flask(__name__)
 CORS(app)
