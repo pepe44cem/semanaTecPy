@@ -4,7 +4,7 @@ import joblib
 
 app = Flask(__name__)
 
-@app.route("hola/", methods = ["GET"])
+@app.route("/hola", methods = ["GET"])
 def inicio():
     return "Hola mundo"
 
