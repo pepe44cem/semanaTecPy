@@ -12,54 +12,50 @@ CORS(app)
 
 @app.route("/hola", methods=["GET"])
 def inicio():
-    return "Hola mundo"
+    return "Hola Mundo"
 
-@app.route("/predict_json", method = ["POST"])
+@app.route("/predict_json", methods=["POST"])
 def predict_json():
     data = request.json
-    x = [[
+    X = [[
         float(data["pH"]),
         float(data["sulphates"]),
         float(data["alcohol"])
         ]]
-    
-    y_pred = dt.predict(x)
-    print(y_pred)
+    y_pred = dt.predict(X)
     return jsonify({"result": y_pred[0]})
 
-@app.route("/predict_form", method = ["POST"])
+
+@app.route("/predict_form", methods=["POST"])
 def predict_form():
     data = request.form
-    x = [[
+    X = [[
         float(data["pH"]),
         float(data["sulphates"]),
         float(data["alcohol"])
         ]]
-    
-    y_pred = dt.predict(x)
-    print(y_pred)
+    y_pred = dt.predict(X)
     return jsonify({"result": y_pred[0]})
 
-@app.route("/predict_file", method = ["POST"])
+@app.route("/predict_file", methods=["POST"])
 def predict_file():
-    file = request.file["archivo"]
-    filename = secure_filename(file)
-    #file.save(f"./static/{filename}")
-    path = os.path(os.getcwd(), "static", filename)
+    files = request.files["archivo"]
+    filename = secure_filename(file.filename)
+    # file.save(f"./static/{filename}")
+    path = file.save(os.path.join(os.getcwd(), "static", filename))
     file.save(path)
-    with open(path, "r") as f:
+    with open(path, "f") as f:
         f.readline()
-        reader = csv.reader
-        x = [[float(row[0]), float(row[1]), float(row[2])] for row in reader]
-        y_pred = dt.predict(x)
+        reader = csv.reader(f)
+        # X = []
+        # for row in reader:
+        X = [float(row[0]), float(row[1]), float(row[2])]
+        y_pred = dt.predict(X)
         return jsonify({
-            "result" : [{"key" : f"{k}",
-                         "result" : f"{v}"} for k, v in enumerate(y_pred)]
+            "results": [{key: f"{k}",
+                         "results": f"{v}"} for k, v in enumerate(y_pred)]
         })
-        
-    
 
-    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False, port=8081)
